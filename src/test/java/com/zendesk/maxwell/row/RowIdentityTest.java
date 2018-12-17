@@ -26,6 +26,15 @@ public class RowIdentityTest {
 	}
 
 	@Test
+	public void testToFallbackValueWithReason() throws IOException {
+		RowIdentity rowId = new RowIdentity("MyDatabase", "MyTable",
+			RowIdentity.pairs(RowIdentity.pair("id", 111)));
+
+		String jsonString = rowId.toFallbackValueWithReason("too big");
+		Assert.assertEquals("{\"database\":\"MyDatabase\",\"table\":\"MyTable\",\"reason\":\"too big\",\"data\":{\"id\":111}}", jsonString);
+	}
+
+	@Test
 	public void testPkToJsonArrayWithListData() throws Exception {
 		RowIdentity rowId = new RowIdentity("MyDatabase", "MyTable",
 			Arrays.asList(Pair.of("id", "9001"), Pair.of("name", Lists.newArrayList("example"))));
